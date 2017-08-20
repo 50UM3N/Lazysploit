@@ -1,4 +1,4 @@
-# Lazysploit
+## Lazysploit
 I made this tool for beginner who start ethical hacking. This tool help you to make payload with msfvenom without writing a single line of command. 
 -------------------------------------------
 
@@ -18,10 +18,22 @@ Command line script for automating metasploit functions
 
 - Some other fun stuff :)
 
-------------------------------------------
-How to use this 
-download this file and then change directory to Lazpsploit folder 
-# cd Lazysploit
-Then run the lazysploit.sh
-# bash lazysploit.sh
+## HOW TO INSTALL:
 
+### Cloning:
+```
+git clone https://github.com/50UM3N/Lazysploit.git
+```
+
+### Running:
+```
+cd Lazysploit
+```
+
+```
+sudo su
+```
+
+```
+chmod +x lazysploit.sh
+```
