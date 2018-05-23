@@ -17,7 +17,7 @@ resize -s 30 88
 mkdir ~/Desktop/output
 clear
 echo -e "Starting Services......."
-#service postgresql start
+service postgresql start
 
 #exit funxtion
 function escape() {
